@@ -1,1 +1,1 @@
-# Game of Life Projekt
+# Game of Life Project
