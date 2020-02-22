@@ -3,9 +3,15 @@ import gtk
 import sys
 import numpy as np
 import itertools
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+from time import sleep
 
 width = gtk.gdk.screen_width()
 height = gtk.gdk.screen_height()
+fig = plt.gcf()
+fig.show()
+fig.canvas.draw()
 matrix_size = None
 boundary_cond = None
 rule_set = None
@@ -26,7 +32,7 @@ def next_gen(size,boundary,rules,M_t):
         raise Exception("Matrix minimum size is 3x3 and maximum size is {}x{}".format(width,height))
     N = np.zeros(size)
     M_n = np.zeros(size)
-    rule = rules[1:].split('/S')
+    rule = str(rules)[1:].split('/S')
     born = [int(s) for s in rule[0]]
     occupied = [int(s) for s in rule[1]]
     cells = list(itertools.product(range(size[0]),range(size[1])))
@@ -137,16 +143,27 @@ def display(M_t,size):
             pic[x,y] = [0,255,0]
         else: 
             pic[x,y] = [0,0,255]
-    img = Image.fromarray(pic, 'RGB')
-    img.show()
+    plt.imshow(Image.fromarray(pic, 'RGB'))
+    fig.canvas.draw()
 
+      
+# function for animating the game of life with a delay (in ms) between time steps
+def animation(steps,delay):
+    global matrix_size, boundary_cond, rule_set, M
+    display(M,matrix_size)
+    for i in range(steps):
+        M = next_gen(matrix_size,boundary_cond,rule_set,M)
+        sleep(delay/1000)
+        display(M,matrix_size)
+        
 # take input from txt-file specified in command line argument 1
-if len(sys.argv) != 2:
-    raise Exception("input txt-file has to be given as a command line argument")
+if len(sys.argv) != 4:
+    raise Exception("input txt-file has to be given as a command line argument followed by time steps and delay (in ms)")
 else: 
     initialize(
-                (np.loadtxt(str(sys.argv[1]),dtype=int,max_rows=1,delimiter=",")[0],np.loadtxt("input.txt",dtype=int,max_rows=1,delimiter=",")[1]),
+                (np.loadtxt(str(sys.argv[1]),dtype=int,max_rows=1,delimiter=",")[0],np.loadtxt(str(sys.argv[1]),dtype=int,max_rows=1,delimiter=",")[1]),
                 np.loadtxt(str(sys.argv[1]),dtype='string',max_rows=1,skiprows=1),
                 np.loadtxt(str(sys.argv[1]),dtype='string',max_rows=1,skiprows=2),
                 np.loadtxt(str(sys.argv[1]),dtype=int,skiprows=3,delimiter=",")
         )
+    animation(int(sys.argv[2]),int(sys.argv[3]))
