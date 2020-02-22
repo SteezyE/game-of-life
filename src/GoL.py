@@ -10,6 +10,7 @@ from time import sleep
 width = gtk.gdk.screen_width()
 height = gtk.gdk.screen_height()
 fig = plt.gcf()
+fig.canvas.set_window_title('Game of Life')
 fig.show()
 fig.canvas.draw()
 matrix_size = None
