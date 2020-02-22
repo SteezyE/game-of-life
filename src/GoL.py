@@ -1,5 +1,6 @@
 from PIL import Image
 import gtk
+import sys
 import numpy as np
 import itertools
 
@@ -11,7 +12,8 @@ rule_set = None
 M = None
 
 # function for initializing each parameter
-def initialize(size,boundary,rules,intial):
+def initialize(size,boundary,rules,initial):
+    global matrix_size, boundary_cond, rule_set, M
     matrix_size = size
     boundary_cond = boundary
     rule_set = rules
@@ -138,7 +140,13 @@ def display(M_t,size):
     img = Image.fromarray(pic, 'RGB')
     img.show()
 
-# testing for display function
-# M = np.random.randint(2,size =(300,300))
-# matrix_size = M.shape
-# display(M,matrix_size)
+# take input from txt-file specified in command line argument 1
+if len(sys.argv) != 2:
+    raise Exception("input txt-file has to be given as a command line argument")
+else: 
+    initialize(
+                (np.loadtxt(str(sys.argv[1]),dtype=int,max_rows=1,delimiter=",")[0],np.loadtxt("input.txt",dtype=int,max_rows=1,delimiter=",")[1]),
+                np.loadtxt(str(sys.argv[1]),dtype='string',max_rows=1,skiprows=1),
+                np.loadtxt(str(sys.argv[1]),dtype='string',max_rows=1,skiprows=2),
+                np.loadtxt(str(sys.argv[1]),dtype=int,skiprows=3,delimiter=",")
+        )
