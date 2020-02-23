@@ -11,8 +11,11 @@ width = gtk.gdk.screen_width()
 height = gtk.gdk.screen_height()
 fig = plt.gcf()
 fig.canvas.set_window_title('Game of Life')
+mng = plt.get_current_fig_manager()
+mng.full_screen_toggle()
 fig.show()
 fig.canvas.draw()
+obj = None
 matrix_size = None
 boundary_cond = None
 rule_set = None
@@ -138,20 +141,27 @@ def next_gen(size,boundary,rules,M_t):
 
 # display game of life matrix as a two color picture    
 def display(M_t,size):
+    global obj
     pic = np.zeros((size[1],size[0],3), dtype=np.uint8)
     for x,y in list(itertools.product(range(size[0]),range(size[1]))):
         if M_t[x,y] == 1:
             pic[x,y] = [0,255,0]
         else: 
             pic[x,y] = [0,0,255]
-    plt.imshow(Image.fromarray(pic, 'RGB'))
+    obj.set_data(Image.fromarray(pic, 'RGB'))
+    plt.draw()
     fig.canvas.draw()
-
       
 # function for animating the game of life with a delay (in ms) between time steps
 def animation(steps,delay):
-    global matrix_size, boundary_cond, rule_set, M
-    display(M,matrix_size)
+    global matrix_size, boundary_cond, rule_set, M, obj
+    pic = np.zeros((matrix_size[1],matrix_size[0],3), dtype=np.uint8)
+    for x,y in list(itertools.product(range(matrix_size[0]),range(matrix_size[1]))):
+        if M[x,y] == 1:
+            pic[x,y] = [0,255,0]
+        else: 
+            pic[x,y] = [0,0,255]
+    obj = plt.imshow(Image.fromarray(pic, 'RGB'))
     for i in range(steps):
         M = next_gen(matrix_size,boundary_cond,rule_set,M)
         sleep(delay/1000)
