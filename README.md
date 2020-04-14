@@ -1,6 +1,6 @@
 # Game of Life Project
-Useage: GoL.py [input txt-file] [number of generations] [animation delay in ms]    
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.g. GoL.py example1.txt 20 800  
+Useage: python GoL.py [input txt-file] [number of generations] [animation delay in ms]    
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.g. python GoL.py example1.txt 20 800  
   
 input txt-file mandatory structure:    
 1: [number of matrix rows],[number of matrix columns]  
