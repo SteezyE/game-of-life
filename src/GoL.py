@@ -8,7 +8,9 @@ import matplotlib.animation as animation
 from time import sleep
 
 width = gtk.gdk.screen_width()
+#width=200
 height = gtk.gdk.screen_height()
+#height=200
 fig = plt.gcf()
 fig.canvas.set_window_title('Game of Life')
 mng = plt.get_current_fig_manager()
