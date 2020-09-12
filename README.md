@@ -1,4 +1,5 @@
 # Game of Life Project
+![Alt Text](https://gitup.uni-potsdam.de/pichottka/game-of-life/raw/master/example.gif)
 Useage: python GoL.py [input txt-file] [number of generations] [animation delay in ms]    
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.g. python GoL.py example1.txt 20 800  
   
